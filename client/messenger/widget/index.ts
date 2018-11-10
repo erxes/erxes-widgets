@@ -1,4 +1,3 @@
-declare const ROOT_URL: string;
 declare const window: any;
 
 /*
@@ -8,12 +7,7 @@ declare const window: any;
 // css
 import "./index.css";
 
-import { sendEvent } from "../../core";
 import { getBrowserInfo } from "../../utils";
-
-window.Erxes = {
-  sendEvent
-};
 
 // check is mobile
 const isMobile =
@@ -81,7 +75,7 @@ erxesContainer.className = "erxes-messenger-hidden";
 const iframe = document.createElement("iframe");
 
 iframe.id = iframeId;
-iframe.src = `${ROOT_URL}/messenger`;
+iframe.src = `${window.location.origin}/messenger`;
 iframe.style.display = "none";
 
 erxesContainer.appendChild(iframe);

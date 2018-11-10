@@ -1,4 +1,3 @@
-declare const ROOT_URL: string;
 declare const window: any;
 
 /*
@@ -25,7 +24,7 @@ erxesContainer.className = "";
 // add iframe
 const iframe = document.createElement("iframe");
 iframe.id = iframeId;
-iframe.src = `${ROOT_URL}/knowledgebase`;
+iframe.src = `${window.location.origin}/knowledgebase`;
 iframe.style.display = "none";
 
 erxesContainer.appendChild(iframe);

@@ -6,6 +6,13 @@
     <title></title>
   </head>
   <body>
+    <script>
+       var env = <%- env %>;
+
+       window.MAIN_API_URL = env.MAIN_API_URL;
+       window.API_GRAPHQL_URL = env.API_GRAPHQL_URL;
+       window.API_SUBSCRIPTIONS_URL = env.API_SUBSCRIPTIONS_URL;
+     </script>
     <div id="root">
     </div>
 

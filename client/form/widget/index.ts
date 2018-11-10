@@ -1,10 +1,7 @@
-/* global ROOT_URL */
-
 /*
  * Form's embeddable script
  */
 
-declare const ROOT_URL: string;
 declare const window: any;
 
 // css
@@ -38,7 +35,7 @@ const createIframe = (setting: Setting) => {
   const iframe = document.createElement("iframe");
 
   iframe.id = iframeId;
-  iframe.src = `${ROOT_URL}/form`;
+  iframe.src = `${window.location.origin}/form`;
   iframe.style.display = "none";
   iframe.style.width = "100%";
   iframe.style.margin = "0 auto";

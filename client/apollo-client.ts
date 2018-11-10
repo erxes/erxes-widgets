@@ -1,6 +1,3 @@
-declare const API_SUBSCRIPTIONS_URL: string;
-declare const API_GRAPHQL_URL: string;
-
 import { InMemoryCache } from "apollo-cache-inmemory";
 import { ApolloClient } from "apollo-client";
 import { split } from "apollo-link";
@@ -8,14 +5,16 @@ import { createHttpLink } from "apollo-link-http";
 import { WebSocketLink } from "apollo-link-ws";
 import { getMainDefinition } from "apollo-utilities";
 
+declare const window: any;
+
 // Create an http link:
 const httpLink = createHttpLink({
-  uri: `${API_GRAPHQL_URL}`
+  uri: `${window.API_GRAPHQL_URL}`
 });
 
 // Subscription config
 export const wsLink = new WebSocketLink({
-  uri: API_SUBSCRIPTIONS_URL,
+  uri: window.API_SUBSCRIPTIONS_URL,
   options: {
     reconnect: true,
     timeout: 30000
