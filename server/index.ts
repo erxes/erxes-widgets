@@ -21,15 +21,9 @@ app.use("/build", express.static(path.join(__dirname, "../static")));
 app.use("/static", express.static("public"));
 
 const getEnv = () => {
-  const {
-    ROOT_URL,
-    MAIN_API_URL,
-    API_GRAPHQL_URL,
-    API_SUBSCRIPTIONS_URL
-  } = process.env;
+  const { MAIN_API_URL, API_GRAPHQL_URL, API_SUBSCRIPTIONS_URL } = process.env;
 
   return JSON.stringify({
-    ROOT_URL,
     MAIN_API_URL,
     API_GRAPHQL_URL,
     API_SUBSCRIPTIONS_URL

@@ -1,5 +1,3 @@
-declare const window: any;
-
 /*
  * Messenger message's embeddable script
  */
@@ -8,6 +6,8 @@ declare const window: any;
 import "./index.css";
 
 import { generateIntegrationUrl, getBrowserInfo } from "../../utils";
+
+declare const window: any;
 
 // check is mobile
 const isMobile =

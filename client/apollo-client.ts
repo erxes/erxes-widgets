@@ -4,17 +4,18 @@ import { split } from "apollo-link";
 import { createHttpLink } from "apollo-link-http";
 import { WebSocketLink } from "apollo-link-ws";
 import { getMainDefinition } from "apollo-utilities";
+import { getEnv } from "./utils";
 
-declare const window: any;
+const { API_GRAPHQL_URL, API_SUBSCRIPTIONS_URL } = getEnv();
 
 // Create an http link:
 const httpLink = createHttpLink({
-  uri: `${window.API_GRAPHQL_URL}`
+  uri: `${API_GRAPHQL_URL}`
 });
 
 // Subscription config
 export const wsLink = new WebSocketLink({
-  uri: window.API_SUBSCRIPTIONS_URL,
+  uri: API_SUBSCRIPTIONS_URL,
   options: {
     reconnect: true,
     timeout: 30000

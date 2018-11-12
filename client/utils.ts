@@ -1,18 +1,18 @@
-/* global FileReader */
 import T from "i18n-react";
 import * as moment from "moment";
 import "moment/locale/mn";
 import translation from "../locales";
-import { IBrowserInfo } from "./types";
+import { ENV, IBrowserInfo } from "./types";
 
 export const getBrowserInfo = async () => {
   let location;
+
   try {
     const response = await fetch("http://ip-api.com/json");
 
     location = await response.json();
   } catch (e) {
-    console.log(e.message); // eslint-disable-line
+    console.log(e.message);
 
     location = {
       city: "",
@@ -114,6 +114,10 @@ export const scrollTo = (element: any, to: number, duration: number) => {
   };
 
   animateScroll();
+};
+
+export const getEnv = (): ENV => {
+  return (window as any).erxesEnv;
 };
 
 /*
