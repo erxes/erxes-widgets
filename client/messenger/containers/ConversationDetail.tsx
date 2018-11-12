@@ -125,12 +125,12 @@ const query = compose(
 
 const WithQuery = query(ConversationDetail);
 
-type PropsWithConsumer = {
+type PropsWihtConsumer = {
   supporters: IUser[];
   loading?: boolean;
 };
 
-const WithConsumer = (props: PropsWithConsumer) => {
+const WithConsumer = (props: PropsWihtConsumer) => {
   return (
     <AppConsumer>
       {({
