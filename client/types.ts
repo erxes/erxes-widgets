@@ -89,6 +89,7 @@ export interface IIntegrationMessengerData {
   knowledgeBaseTopicId: string;
   availabilityMethod: string;
   isOnline: boolean;
+  requireAuth: boolean;
   onlineHours: IIntegrationMessengerOnlineHours[];
   timezone?: string;
   messages?: IIntegrationMessengerDataMessagesItem;

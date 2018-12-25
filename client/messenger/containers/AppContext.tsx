@@ -62,8 +62,10 @@ export class AppProvider extends React.Component<{}, IState> {
 
     let activeRoute = "conversationList";
 
+    const { messengerData } = connection.data;
+
     // if visitor did not give email or phone then ask
-    if (!this.isLoggedIn()) {
+    if (!this.isLoggedIn() && messengerData.requireAuth) {
       activeRoute = "accquireInformation";
     }
 
@@ -167,7 +169,11 @@ export class AppProvider extends React.Component<{}, IState> {
   };
 
   changeRoute = (route: string) => {
-    if (route === "conversationDetail" && !this.isLoggedIn()) {
+    if (
+      route === "conversationDetail" &&
+      !this.isLoggedIn() &&
+      connection.data.messengerData.requireAuth
+    ) {
       // if visitor did not give email or phone then ask
       return this.setState({ activeRoute: "accquireInformation" });
     }
