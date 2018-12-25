@@ -1,18 +1,22 @@
-/* global FileReader */
 import T from "i18n-react";
 import * as moment from "moment";
 import "moment/locale/mn";
 import translation from "../locales";
-import { IBrowserInfo } from "./types";
+import { ENV, IBrowserInfo } from "./types";
 
 export const getBrowserInfo = async () => {
+  if (window.location.hostname === "localhost") {
+    return {};
+  }
+
   let location;
+
   try {
-    const response = await fetch("http://ip-api.com/json");
+    const response = await fetch("https://geo.erxes.io");
 
     location = await response.json();
   } catch (e) {
-    console.log(e.message); // eslint-disable-line
+    console.log(e.message);
 
     location = {
       city: "",
@@ -23,10 +27,10 @@ export const getBrowserInfo = async () => {
   }
 
   return {
-    remoteAddress: location.query,
-    region: location.regionName,
+    remoteAddress: location.network,
+    region: location.region,
     city: location.city,
-    country: location.country,
+    country: location.countryName,
     url: window.location.pathname,
     hostname: window.location.origin,
     language: navigator.language,
@@ -114,4 +118,30 @@ export const scrollTo = (element: any, to: number, duration: number) => {
   };
 
   animateScroll();
+};
+
+export const getEnv = (): ENV => {
+  return (window as any).erxesEnv;
+};
+
+/*
+ * Generate <host>/<integration kind> from <host>/<integration kind>Widget.bundle.js
+ */
+export const generateIntegrationUrl = (integrationKind: string): string => {
+  const script =
+    document.currentScript ||
+    (() => {
+      const scripts = document.getElementsByTagName("script");
+
+      return scripts[scripts.length - 1];
+    })();
+
+  if (script && script instanceof HTMLScriptElement) {
+    return script.src.replace(
+      `/build/${integrationKind}Widget.bundle.js`,
+      `/${integrationKind}`
+    );
+  }
+
+  return "";
 };

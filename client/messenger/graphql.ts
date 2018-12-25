@@ -27,7 +27,12 @@ const messageFields = `
     brandId
   }
   messengerAppData
-  attachments
+  attachments {
+    url
+    name
+    size
+    type
+  }
 `;
 
 const userFields = `
@@ -42,6 +47,7 @@ const userFields = `
 const conversationDetailQuery = `
   query ($_id: String, $integrationId: String!) {
     conversationDetail(_id: $_id, integrationId: $integrationId) {
+      _id
       messages {
         ${messageFields}
       }
@@ -170,20 +176,30 @@ const saveBrowserInfo = `
   }
 `;
 
+// faq
+
+const faqFields = `
+  _id
+  title
+  summary
+  content
+  createdDate
+`;
+
+const categoryFields = `
+  _id
+  title
+  description
+  numOfArticles
+  icon
+`;
+
 const getFaqCategoryQuery = `
   query knowledgeBaseCategoriesDetail($categoryId: String!) {
     knowledgeBaseCategoriesDetail(categoryId: $categoryId) {
-      _id
-      title
-      description
-      numOfArticles
-      icon
+      ${categoryFields}
       articles {
-        _id
-        title
-        summary
-        content
-        createdDate
+        ${faqFields}
       }
     }
   }
@@ -195,11 +211,57 @@ const getFaqTopicQuery = `
       title
       description
       categories {
+        ${categoryFields}
+      }
+    }
+  }
+`;
+
+const faqSearchArticlesQuery = `
+  query knowledgeBaseArticles($topicId: String!, $searchString: String!) {
+    knowledgeBaseArticles(topicId: $topicId, searchString: $searchString) {
+      ${faqFields}
+    }
+  }
+`;
+
+// lead
+const formQuery = `
+  query form($formId: String) {
+    form(formId: $formId) {
+      title
+      description
+      buttonText
+
+      fields {
+        _id
+        formId
+        name
+        type
+        check
+        text
+        description
+        options
+        isRequired
+        order
+        validation
+      }
+    }
+  }
+`;
+
+const formConnectMutation = `
+  mutation formConnect($brandCode: String!, $formCode: String!) {
+    formConnect(brandCode: $brandCode, formCode: $formCode) {
+      form {
         _id
         title
         description
-        icon
-        numOfArticles
+      }
+      integration {
+        _id
+        name
+        formData
       }
     }
   }
@@ -219,5 +281,8 @@ export default {
   readConversationMessages,
   messengerSupportersQuery,
   getFaqCategoryQuery,
-  getFaqTopicQuery
+  getFaqTopicQuery,
+  faqSearchArticlesQuery,
+  formQuery,
+  formConnectMutation
 };

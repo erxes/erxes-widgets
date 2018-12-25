@@ -15,14 +15,16 @@ import {
   setLocalStorageItem
 } from "../connection";
 import graphqlTypes from "../graphql";
-import { IAttachment, IMessage } from "../types";
+import { IAttachment, IFaqArticle, IFaqCategory, IMessage } from "../types";
 
 interface IState {
   lastUnreadMessage?: IMessage;
   isMessengerVisible: boolean;
+  isSavingNotified: boolean;
   activeRoute: string | "";
   activeConversation: string | null;
-  activeCategory: string | null;
+  activeFaqCategory: IFaqCategory | null;
+  activeFaqArticle: IFaqArticle | null;
   isAttachingFile: boolean;
   isBrowserInfoSaved: boolean;
   headHeight: number;
@@ -40,7 +42,8 @@ interface IStore extends IState {
   changeRoute: (route: string) => void;
   changeConversation: (converstionId: string) => void;
   goToConversation: (conversationId: string) => void;
-  goToCategory: (categoryId: string) => void;
+  goToFaqCategory: (category?: IFaqCategory) => void;
+  goToFaqArticle: (article: IFaqArticle) => void;
   goToConversationList: () => void;
   openLastConversation: () => void;
   saveGetNotified: (doc: { type: string; value: string }) => void;
@@ -72,9 +75,11 @@ export class AppProvider extends React.Component<{}, IState> {
     this.state = {
       lastUnreadMessage: undefined,
       isMessengerVisible: false,
+      isSavingNotified: false,
       activeRoute,
       activeConversation: null,
-      activeCategory: null,
+      activeFaqCategory: null,
+      activeFaqArticle: null,
       isAttachingFile: false,
       isBrowserInfoSaved: false,
       headHeight: 200
@@ -101,6 +106,10 @@ export class AppProvider extends React.Component<{}, IState> {
 
   getMessengerData = () => {
     return connection.data.messengerData || {};
+  };
+
+  isOnline = () => {
+    return this.getMessengerData().isOnline;
   };
 
   isSmallContainer = () => {
@@ -207,9 +216,23 @@ export class AppProvider extends React.Component<{}, IState> {
     this.readMessages(conversationId);
   };
 
-  goToCategory = (categoryId: string) => {
-    this.setState({ activeCategory: categoryId });
-    this.changeRoute("faq");
+  goToFaqCategory = (category?: IFaqCategory) => {
+    const { activeFaqCategory } = this.state;
+    if (category) {
+      this.setState({ activeFaqCategory: category });
+    }
+
+    this.setState({
+      activeRoute:
+        activeFaqCategory || category ? "faqCategory" : "conversationList"
+    });
+  };
+
+  goToFaqArticle = (article: IFaqArticle) => {
+    this.setState({
+      activeRoute: "faqArticle",
+      activeFaqArticle: article
+    });
   };
 
   goToConversationList = () => {
@@ -232,6 +255,8 @@ export class AppProvider extends React.Component<{}, IState> {
     if (!value) {
       return;
     }
+
+    this.setState({ isSavingNotified: true });
 
     client
       .mutate({
@@ -258,6 +283,7 @@ export class AppProvider extends React.Component<{}, IState> {
 
       // after mutation
       .then(() => {
+        this.setState({ isSavingNotified: false });
         // save email
         setLocalStorageItem("getNotifiedType", type);
         setLocalStorageItem("getNotifiedValue", value);
@@ -286,7 +312,7 @@ export class AppProvider extends React.Component<{}, IState> {
     setLocalStorageItem("getNotifiedValue", "");
     setLocalStorageItem("lastConversationId", "");
     setLocalStorageItem("customerId", "");
-
+    this.toggle(true);
     window.location.reload();
   };
 
@@ -375,7 +401,7 @@ export class AppProvider extends React.Component<{}, IState> {
             ${connection.queryVariables}
             $message: String
             $conversationId: String
-            $attachments: [JSON]
+            $attachments: [AttachmentInput]
           ) {
 
           insertMessage(
@@ -448,7 +474,8 @@ export class AppProvider extends React.Component<{}, IState> {
           changeRoute: this.changeRoute,
           changeConversation: this.changeConversation,
           goToConversation: this.goToConversation,
-          goToCategory: this.goToCategory,
+          goToFaqCategory: this.goToFaqCategory,
+          goToFaqArticle: this.goToFaqArticle,
           goToConversationList: this.goToConversationList,
           openLastConversation: this.openLastConversation,
           saveGetNotified: this.saveGetNotified,
