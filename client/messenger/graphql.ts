@@ -267,6 +267,14 @@ const formConnectMutation = `
   }
 `;
 
+const updateCustomer = `
+  mutation updateCustomer($_id: String, $email: String) {
+    updateCustomer(_id: $_id, email: $email) {
+      _id
+    }
+  }
+`;
+
 export default {
   messageFields,
   conversationDetailQuery,
@@ -284,5 +292,6 @@ export default {
   getFaqTopicQuery,
   faqSearchArticlesQuery,
   formQuery,
-  formConnectMutation
+  formConnectMutation,
+  updateCustomer
 };

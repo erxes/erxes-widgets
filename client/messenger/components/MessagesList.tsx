@@ -1,6 +1,7 @@
 import * as classNames from "classnames";
 import * as React from "react";
 import * as RTG from "react-transition-group";
+import { getLocalStorageItem } from "../../knowledgebase/connection";
 import {
   IIntegrationMessengerData,
   IIntegrationMessengerDataMessagesItem,
@@ -16,11 +17,23 @@ type Props = {
   inputFocus: () => void;
   uiOptions: IIntegrationUiOptions;
   messengerData: IIntegrationMessengerData;
+  updateCustomer: (email: string) => void;
 };
 
-class MessagesList extends React.Component<Props> {
+class MessagesList extends React.Component<
+  Props,
+  { notified: boolean; email?: string }
+> {
   private node: HTMLDivElement | null = null;
   private shouldScrollBottom: boolean = false;
+
+  constructor(props: Props) {
+    super(props);
+
+    this.state = {
+      notified: false
+    };
+  }
 
   componentDidMount() {
     if (this.node) {
@@ -55,6 +68,18 @@ class MessagesList extends React.Component<Props> {
     });
   }
 
+  onNotifyEmailChange(e: React.FormEvent<HTMLInputElement>) {
+    this.setState({ email: e.currentTarget.value });
+  }
+
+  onNotify() {
+    const { email } = this.state;
+
+    if (email) {
+      this.props.updateCustomer(email);
+    }
+  }
+
   renderAwayMessage(messengerData: IIntegrationMessengerData) {
     const { isOnline } = this.props;
     const messages =
@@ -65,6 +90,28 @@ class MessagesList extends React.Component<Props> {
     }
 
     return <li className="erxes-spacial-message away">{messages.away}</li>;
+  }
+
+  renderNotifyInput(messengerData: IIntegrationMessengerData) {
+    if (messengerData.requireAuth && getLocalStorageItem("hasNotified")) {
+      return null;
+    }
+
+    if (this.state.notified) {
+      return <li>Thank you</li>;
+    }
+
+    return (
+      <li className="erxes-spacial-message">
+        Get notified by email
+        <input
+          type="email"
+          placeholder="e.g info@example.net"
+          autoFocus={true}
+          onChange={this.onNotifyEmailChange}
+        />
+      </li>
+    );
   }
 
   renderWelcomeMessage(messengerData: IIntegrationMessengerData) {
@@ -114,6 +161,7 @@ class MessagesList extends React.Component<Props> {
             })}
           </RTG.TransitionGroup>
           {this.renderAwayMessage(messengerData)}
+          {this.renderNotifyInput(messengerData)}
         </ul>
       </div>
     );

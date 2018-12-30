@@ -13,10 +13,11 @@ export default class extends React.Component<Props> {
   render() {
     return (
       <AppConsumer>
-        {({ getUiOptions, getMessengerData }) => {
+        {({ getUiOptions, getMessengerData, updateCustomer }) => {
           return (
             <MessagesList
               {...this.props}
+              updateCustomer={updateCustomer}
               uiOptions={getUiOptions()}
               messengerData={getMessengerData()}
             />
