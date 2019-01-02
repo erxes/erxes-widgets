@@ -22,7 +22,7 @@ type Props = {
 
 class MessagesList extends React.Component<
   Props,
-  { notified: boolean; email?: string }
+  { showNotifyInput?: boolean; email?: string }
 > {
   private node: HTMLDivElement | null = null;
   private shouldScrollBottom: boolean = false;
@@ -30,9 +30,7 @@ class MessagesList extends React.Component<
   constructor(props: Props) {
     super(props);
 
-    this.state = {
-      notified: false
-    };
+    this.state = {};
   }
 
   componentDidMount() {
@@ -78,6 +76,8 @@ class MessagesList extends React.Component<
     if (email) {
       this.props.updateCustomer(email);
     }
+
+    this.setState({ showNotifyInput: false });
   }
 
   renderAwayMessage(messengerData: IIntegrationMessengerData) {
@@ -93,23 +93,26 @@ class MessagesList extends React.Component<
   }
 
   renderNotifyInput(messengerData: IIntegrationMessengerData) {
-    if (messengerData.requireAuth && getLocalStorageItem("hasNotified")) {
+    if (messengerData.requireAuth || getLocalStorageItem("hasNotified")) {
       return null;
     }
 
-    if (this.state.notified) {
-      return <li>Thank you</li>;
+    if (this.state.showNotifyInput) {
+      return null;
     }
 
     return (
       <li className="erxes-spacial-message">
         Get notified by email
-        <input
-          type="email"
-          placeholder="e.g info@example.net"
-          autoFocus={true}
-          onChange={this.onNotifyEmailChange}
-        />
+        <label style={{ display: "block" }}>
+          <input
+            type="email"
+            placeholder="e.g info@example.net"
+            onChange={this.onNotifyEmailChange}
+            style={{ display: "block" }}
+          />
+          <input type="submit" value=">" />
+        </label>
       </li>
     );
   }
