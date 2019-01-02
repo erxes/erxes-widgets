@@ -1,7 +1,6 @@
 import * as classNames from "classnames";
 import * as React from "react";
 import * as RTG from "react-transition-group";
-import { getLocalStorageItem } from "../../knowledgebase/connection";
 import {
   IIntegrationMessengerData,
   IIntegrationMessengerDataMessagesItem,
@@ -10,6 +9,7 @@ import {
 import { scrollTo } from "../../utils";
 import { IMessage } from "../types";
 import { Message } from "./";
+import { getLocalStorageItem } from "../connection";
 
 type Props = {
   messages: IMessage[];
@@ -22,7 +22,7 @@ type Props = {
 
 class MessagesList extends React.Component<
   Props,
-  { showNotifyInput?: boolean; email?: string }
+  { hideNotifyInput?: boolean; email?: string }
 > {
   private node: HTMLDivElement | null = null;
   private shouldScrollBottom: boolean = false;
@@ -66,19 +66,27 @@ class MessagesList extends React.Component<
     });
   }
 
-  onNotifyEmailChange(e: React.FormEvent<HTMLInputElement>) {
+  onNotifyEmailChange = (e: React.FormEvent<HTMLInputElement>) => {
     this.setState({ email: e.currentTarget.value });
-  }
+  };
 
-  onNotify() {
+  handleKeyPress = (e: React.KeyboardEvent) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+
+      this.onNotify();
+    }
+  };
+
+  onNotify = () => {
     const { email } = this.state;
 
     if (email) {
       this.props.updateCustomer(email);
     }
 
-    this.setState({ showNotifyInput: false });
-  }
+    this.setState({ hideNotifyInput: true });
+  };
 
   renderAwayMessage(messengerData: IIntegrationMessengerData) {
     const { isOnline } = this.props;
@@ -97,21 +105,22 @@ class MessagesList extends React.Component<
       return null;
     }
 
-    if (this.state.showNotifyInput) {
+    if (this.state.hideNotifyInput) {
       return null;
     }
 
     return (
       <li className="erxes-spacial-message">
         Get notified by email
-        <label style={{ display: "block" }}>
+        <label>
           <input
             type="email"
             placeholder="e.g info@example.net"
             onChange={this.onNotifyEmailChange}
-            style={{ display: "block" }}
+            style={{ display: "inline" }}
+            onKeyDown={this.handleKeyPress}
           />
-          <input type="submit" value=">" />
+          <input type="submit" value=">" onClick={this.onNotify} />
         </label>
       </li>
     );
@@ -130,18 +139,14 @@ class MessagesList extends React.Component<
   }
 
   render() {
-    const { uiOptions, messengerData, messages, inputFocus } = this.props;
+    const { uiOptions, messengerData, messages } = this.props;
     const { color, wallpaper } = uiOptions;
     const backgroundClass = classNames("erxes-messages-background", {
       [`bg-${wallpaper}`]: wallpaper
     });
 
     return (
-      <div
-        className={backgroundClass}
-        ref={node => (this.node = node)}
-        onClick={inputFocus}
-      >
+      <div className={backgroundClass} ref={node => (this.node = node)}>
         <ul id="erxes-messages" className="erxes-messages-list slide-in">
           {this.renderWelcomeMessage(messengerData)}
           <RTG.TransitionGroup component={null}>
