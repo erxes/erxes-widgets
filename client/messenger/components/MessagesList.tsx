@@ -7,9 +7,9 @@ import {
   IIntegrationUiOptions
 } from "../../types";
 import { scrollTo } from "../../utils";
+import { getLocalStorageItem } from "../connection";
 import { IMessage } from "../types";
 import { Message } from "./";
-import { getLocalStorageItem } from "../connection";
 
 type Props = {
   messages: IMessage[];
@@ -106,22 +106,24 @@ class MessagesList extends React.Component<
     }
 
     if (this.state.hideNotifyInput) {
-      return null;
+      return (
+        <li>
+          <span> Thank you. </span>
+        </li>
+      );
     }
 
     return (
       <li className="erxes-spacial-message">
         Get notified by email
-        <label>
-          <input
-            type="email"
-            placeholder="e.g info@example.net"
-            onChange={this.onNotifyEmailChange}
-            style={{ display: "inline" }}
-            onKeyDown={this.handleKeyPress}
-          />
-          <input type="submit" value=">" onClick={this.onNotify} />
-        </label>
+        <input
+          type="email"
+          placeholder="e.g info@example.net"
+          onChange={this.onNotifyEmailChange}
+          style={{ display: "inline" }}
+          onKeyDown={this.handleKeyPress}
+        />
+        <input type="submit" value=">" onClick={this.onNotify} />
       </li>
     );
   }
