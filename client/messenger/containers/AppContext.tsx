@@ -53,7 +53,7 @@ interface IStore extends IState {
   sendMessage: (message: string, attachments?: IAttachment[]) => void;
   sendFile: (file: File) => void;
   setHeadHeight: (headHeight: number) => void;
-  updateCustomer: (email: string) => void;
+  updateCustomer: (email: string, callback: () => void) => void;
 }
 
 const AppContext = React.createContext({} as IStore);
@@ -343,13 +343,14 @@ export class AppProvider extends React.Component<{}, IState> {
     });
   };
 
-  updateCustomer = (email: string) => {
+  updateCustomer = (email: string, callback: () => void) => {
     client
       .mutate({
         mutation: gql(graphqlTypes.updateCustomer),
         variables: { _id: connection.data.customerId, email }
       })
       .then(() => {
+        callback();
         setLocalStorageItem("hasNotified", "true");
       });
   };

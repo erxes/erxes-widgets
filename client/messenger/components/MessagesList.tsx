@@ -19,12 +19,12 @@ type Props = {
   inputFocus: () => void;
   uiOptions: IIntegrationUiOptions;
   messengerData: IIntegrationMessengerData;
-  updateCustomer: (email: string) => void;
+  updateCustomer: (email: string, callback: () => void) => void;
 };
 
 class MessagesList extends React.Component<
   Props,
-  { hideNotifyInput?: boolean; email?: string }
+  { hideNotifyInput?: boolean }
 > {
   private node: HTMLDivElement | null = null;
   private shouldScrollBottom: boolean = false;
@@ -68,26 +68,20 @@ class MessagesList extends React.Component<
     });
   }
 
-  onNotifyEmailChange = (e: React.FormEvent<HTMLInputElement>) => {
-    this.setState({ email: e.currentTarget.value });
-  };
-
-  handleKeyPress = (e: React.KeyboardEvent) => {
-    if (e.key === "Enter") {
+  onNotify = (e?: React.FormEvent) => {
+    if (e) {
       e.preventDefault();
-
-      this.onNotify();
-    }
-  };
-
-  onNotify = () => {
-    const { email } = this.state;
-
-    if (email) {
-      this.props.updateCustomer(email);
     }
 
-    this.setState({ hideNotifyInput: true });
+    const email = (document.getElementById(
+      "notify-email-input"
+    )! as HTMLInputElement).value;
+
+    const callback = () => {
+      this.setState({ hideNotifyInput: true });
+    };
+
+    this.props.updateCustomer(email, callback);
   };
 
   renderAwayMessage(messengerData: IIntegrationMessengerData) {
@@ -119,19 +113,17 @@ class MessagesList extends React.Component<
       <li className="erxes-spacial-message">
         Get notified by email
         <div className="notify-email">
-          <input
-            type="email"
-            placeholder="e.g info@example.net"
-            onChange={this.onNotifyEmailChange}
-            style={{ display: "inline" }}
-            onKeyDown={this.handleKeyPress}
-          />
-          <button
-            onClick={this.onNotify}
-            style={{ backgroundColor: this.props.color }}
-          >
-            <span>{iconRight}</span>
-          </button>
+          <form onSubmit={this.onNotify}>
+            <input
+              type="email"
+              placeholder="e.g info@example.net"
+              id="notify-email-input"
+              style={{ display: "inline" }}
+            />
+            <button type="submit" style={{ backgroundColor: this.props.color }}>
+              <span>{iconRight}</span>
+            </button>
+          </form>
         </div>
       </li>
     );
