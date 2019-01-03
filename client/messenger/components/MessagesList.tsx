@@ -1,6 +1,7 @@
 import * as classNames from "classnames";
 import * as React from "react";
 import * as RTG from "react-transition-group";
+import { iconRight } from "../../icons/Icons";
 import {
   IIntegrationMessengerData,
   IIntegrationMessengerDataMessagesItem,
@@ -14,6 +15,7 @@ import { Message } from "./";
 type Props = {
   messages: IMessage[];
   isOnline: boolean;
+  color?: string;
   inputFocus: () => void;
   uiOptions: IIntegrationUiOptions;
   messengerData: IIntegrationMessengerData;
@@ -107,7 +109,7 @@ class MessagesList extends React.Component<
 
     if (this.state.hideNotifyInput) {
       return (
-        <li>
+        <li className="erxes-spacial-message">
           <span> Thank you. </span>
         </li>
       );
@@ -116,14 +118,21 @@ class MessagesList extends React.Component<
     return (
       <li className="erxes-spacial-message">
         Get notified by email
-        <input
-          type="email"
-          placeholder="e.g info@example.net"
-          onChange={this.onNotifyEmailChange}
-          style={{ display: "inline" }}
-          onKeyDown={this.handleKeyPress}
-        />
-        <input type="submit" value=">" onClick={this.onNotify} />
+        <div className="notify-email">
+          <input
+            type="email"
+            placeholder="e.g info@example.net"
+            onChange={this.onNotifyEmailChange}
+            style={{ display: "inline" }}
+            onKeyDown={this.handleKeyPress}
+          />
+          <button
+            onClick={this.onNotify}
+            style={{ backgroundColor: this.props.color }}
+          >
+            <span>{iconRight}</span>
+          </button>
+        </div>
       </li>
     );
   }

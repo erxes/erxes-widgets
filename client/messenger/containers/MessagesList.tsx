@@ -6,6 +6,7 @@ import { AppConsumer } from "./AppContext";
 type Props = {
   messages: IMessage[];
   isOnline: boolean;
+  color?: string;
   inputFocus: () => void;
 };
 

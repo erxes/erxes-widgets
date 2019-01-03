@@ -102,6 +102,7 @@ class ConversationDetail extends React.Component<Props, State> {
         <MessagesList
           isOnline={isOnline}
           messages={messages}
+          color={color}
           inputFocus={this.inputFocus}
         />
 
