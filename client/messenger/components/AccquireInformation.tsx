@@ -32,6 +32,7 @@ class AccquireInformation extends React.PureComponent<Props, State> {
     this.save = this.save.bind(this);
     this.onTypeChange = this.onTypeChange.bind(this);
     this.onValueChange = this.onValueChange.bind(this);
+    this.renderTitle = this.renderTitle.bind(this);
   }
 
   componentWillReceiveProps(nextProps: Props) {
@@ -98,6 +99,7 @@ class AccquireInformation extends React.PureComponent<Props, State> {
 
     return (
       <>
+        {this.renderTitle()}
         <div className="accquire-information slide-in">
           <p className="type">
             <span
