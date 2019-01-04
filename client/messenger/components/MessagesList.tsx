@@ -102,9 +102,12 @@ class MessagesList extends React.Component<Props, State> {
     }
 
     if (this.state.hideNotifyInput) {
+      const messages =
+        messengerData.messages || ({} as IIntegrationMessengerDataMessagesItem);
+
       return (
         <li className="erxes-spacial-message">
-          <span> Thank you. </span>
+          <span> {messages.thank || "Thank you. "}</span>
         </li>
       );
     }
