@@ -77,11 +77,9 @@ class MessagesList extends React.Component<Props, State> {
       [type]: value
     };
 
-    const callback = () => {
-      this.setState({ hideNotifyInput: true });
-    };
-
-    this.props.updateCustomer(doc, callback);
+    this.props.updateCustomer(doc, () =>
+      this.setState({ hideNotifyInput: true })
+    );
   };
 
   renderAwayMessage(messengerData: IIntegrationMessengerData) {
