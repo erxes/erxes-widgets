@@ -268,8 +268,8 @@ const formConnectMutation = `
 `;
 
 const updateCustomer = `
-  mutation updateCustomer($_id: String, $email: String) {
-    updateCustomer(_id: $_id, email: $email) {
+  mutation updateCustomer($_id: String, $email: String, $phone: String) {
+    updateCustomer(_id: $_id, email: $email, phone: $phone) {
       _id
     }
   }

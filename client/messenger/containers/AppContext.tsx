@@ -53,7 +53,10 @@ interface IStore extends IState {
   sendMessage: (message: string, attachments?: IAttachment[]) => void;
   sendFile: (file: File) => void;
   setHeadHeight: (headHeight: number) => void;
-  updateCustomer: (email: string, callback: () => void) => void;
+  updateCustomer: (
+    doc: { [key: string]: string },
+    callback: () => void
+  ) => void;
 }
 
 const AppContext = React.createContext({} as IStore);
@@ -71,6 +74,10 @@ export class AppProvider extends React.Component<{}, IState> {
     // if visitor did not give email or phone then ask
     if (!this.isLoggedIn() && messengerData.requireAuth) {
       activeRoute = "accquireInformation";
+    }
+
+    if (!messengerData.requireAuth) {
+      activeRoute = "home";
     }
 
     this.state = {
@@ -344,11 +351,11 @@ export class AppProvider extends React.Component<{}, IState> {
     });
   };
 
-  updateCustomer = (email: string, callback: () => void) => {
+  updateCustomer = (doc: { [key: string]: string }, callback: () => void) => {
     client
       .mutate({
         mutation: gql(graphqlTypes.updateCustomer),
-        variables: { _id: connection.data.customerId, email }
+        variables: { _id: connection.data.customerId, ...doc }
       })
       .then(() => {
         callback();

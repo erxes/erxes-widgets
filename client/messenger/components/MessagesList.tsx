@@ -11,6 +11,7 @@ import { scrollTo } from "../../utils";
 import { getLocalStorageItem } from "../connection";
 import { IMessage } from "../types";
 import { Message } from "./";
+import AccquireInformation from "./AccquireInformation";
 
 type Props = {
   messages: IMessage[];
@@ -19,7 +20,10 @@ type Props = {
   inputFocus: () => void;
   uiOptions: IIntegrationUiOptions;
   messengerData: IIntegrationMessengerData;
-  updateCustomer: (email: string, callback: () => void) => void;
+  updateCustomer: (
+    doc: { [key: string]: string },
+    callback: () => void
+  ) => void;
 };
 
 class MessagesList extends React.Component<
@@ -68,20 +72,16 @@ class MessagesList extends React.Component<
     });
   }
 
-  onNotify = (e?: React.FormEvent) => {
-    if (e) {
-      e.preventDefault();
-    }
-
-    const email = (document.getElementById(
-      "notify-email-input"
-    )! as HTMLInputElement).value;
+  onNotify = ({ type, value }: { type: string; value: string }) => {
+    const doc = {
+      [type]: value
+    };
 
     const callback = () => {
       this.setState({ hideNotifyInput: true });
     };
 
-    this.props.updateCustomer(email, callback);
+    this.props.updateCustomer(doc, callback);
   };
 
   renderAwayMessage(messengerData: IIntegrationMessengerData) {
@@ -111,20 +111,8 @@ class MessagesList extends React.Component<
 
     return (
       <li className="erxes-spacial-message">
-        Get notified by email
-        <div className="notify-email">
-          <form onSubmit={this.onNotify}>
-            <input
-              type="email"
-              placeholder="e.g info@example.net"
-              id="notify-email-input"
-              style={{ display: "inline" }}
-            />
-            <button type="submit" style={{ backgroundColor: this.props.color }}>
-              <span>{iconRight}</span>
-            </button>
-          </form>
-        </div>
+        Get notified
+        <AccquireInformation save={this.onNotify} loading={false} />
       </li>
     );
   }

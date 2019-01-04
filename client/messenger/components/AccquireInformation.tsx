@@ -8,6 +8,7 @@ type Props = {
   save: (doc: State) => void;
   color?: string;
   loading: boolean;
+  showTitle?: boolean;
 };
 
 type State = {
@@ -72,10 +73,10 @@ class AccquireInformation extends React.PureComponent<Props, State> {
     return this.setState({ isValidated: false });
   }
 
-  render() {
-    const { color } = this.props;
-    const { type, isValidated, isLoading } = this.state;
-    const formClasses = classNames("form", { invalid: !isValidated });
+  renderTitle() {
+    if (!this.props.showTitle) {
+      return null;
+    }
 
     const title = (
       <div className="erxes-topbar-title">
@@ -84,13 +85,19 @@ class AccquireInformation extends React.PureComponent<Props, State> {
       </div>
     );
 
+    return <TopBar middle={title} />;
+  }
+
+  render() {
+    const { color } = this.props;
+    const { type, isValidated, isLoading } = this.state;
+    const formClasses = classNames("form", { invalid: !isValidated });
+
     const placeholder =
       type === "email" ? __("email@domain.com") : __("phone number");
 
     return (
       <>
-        <TopBar middle={title} />
-
         <div className="accquire-information slide-in">
           <p className="type">
             <span
