@@ -1,7 +1,6 @@
 import * as classNames from "classnames";
 import * as React from "react";
 import * as RTG from "react-transition-group";
-import { iconRight } from "../../icons/Icons";
 import {
   IIntegrationMessengerData,
   IIntegrationMessengerDataMessagesItem,
@@ -26,17 +25,18 @@ type Props = {
   ) => void;
 };
 
-class MessagesList extends React.Component<
-  Props,
-  { hideNotifyInput?: boolean }
-> {
+type State = {
+  hideNotifyInput: boolean;
+};
+
+class MessagesList extends React.Component<Props, State> {
   private node: HTMLDivElement | null = null;
   private shouldScrollBottom: boolean = false;
 
   constructor(props: Props) {
     super(props);
 
-    this.state = {};
+    this.state = { hideNotifyInput: false };
   }
 
   componentDidMount() {
