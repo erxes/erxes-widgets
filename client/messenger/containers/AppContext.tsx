@@ -76,7 +76,7 @@ export class AppProvider extends React.Component<{}, IState> {
       activeRoute = "accquireInformation";
     }
 
-    if (!messengerData.requireAuth) {
+    if (!messengerData.requireAuth && !getLocalStorageItem("hasNotified")) {
       activeRoute = "home";
     }
 
