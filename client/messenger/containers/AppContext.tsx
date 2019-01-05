@@ -46,7 +46,10 @@ interface IStore extends IState {
   goToFaqArticle: (article: IFaqArticle) => void;
   goToConversationList: () => void;
   openLastConversation: () => void;
-  saveGetNotified: (doc: { type: string; value: string }) => void;
+  saveGetNotified: (
+    doc: { type: string; value: string },
+    callback?: () => void
+  ) => void;
   endConversation: () => void;
   readConversation: (conversationId: string) => void;
   readMessages: (conversationId: string) => void;
@@ -255,7 +258,10 @@ export class AppProvider extends React.Component<{}, IState> {
     });
   };
 
-  saveGetNotified = ({ type, value }: { type: string; value: string }) => {
+  saveGetNotified = (
+    { type, value }: { type: string; value: string },
+    callback?: () => void
+  ) => {
     if (!value) {
       return;
     }
@@ -288,6 +294,10 @@ export class AppProvider extends React.Component<{}, IState> {
       // after mutation
       .then(() => {
         this.setState({ isSavingNotified: false });
+        if (callback) {
+          callback();
+        }
+
         // save email
         setLocalStorageItem("getNotifiedType", type);
         setLocalStorageItem("getNotifiedValue", value);

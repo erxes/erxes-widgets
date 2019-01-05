@@ -7,7 +7,7 @@ import {
   IIntegrationUiOptions
 } from "../../types";
 import { scrollTo } from "../../utils";
-import { getLocalStorageItem } from "../connection";
+import { getLocalStorageItem, setLocalStorageItem } from "../connection";
 import { IMessage } from "../types";
 import { Message } from "./";
 import AccquireInformation from "./AccquireInformation";
@@ -19,7 +19,10 @@ type Props = {
   inputFocus: () => void;
   uiOptions: IIntegrationUiOptions;
   messengerData: IIntegrationMessengerData;
-  saveGetNotified: (doc: { type: string; value: string }) => void;
+  saveGetNotified: (
+    doc: { type: string; value: string },
+    callback?: () => void
+  ) => void;
   getColor?: string;
 };
 
@@ -35,6 +38,7 @@ class MessagesList extends React.Component<Props, State> {
     super(props);
 
     this.state = { hideNotifyInput: false };
+    this.onNotify = this.onNotify.bind(this);
   }
 
   componentDidMount() {
@@ -71,9 +75,14 @@ class MessagesList extends React.Component<Props, State> {
   }
 
   onNotify = ({ type, value }: { type: string; value: string }) => {
-    this.props.saveGetNotified({ type, value });
+    const callback = () => {
+      console.log("gonna set some state");
+      this.setState({ hideNotifyInput: true }, () =>
+        setLocalStorageItem("hasNotified", "true")
+      );
+    };
 
-    this.setState({ hideNotifyInput: true });
+    this.props.saveGetNotified({ type, value }, callback);
   };
 
   renderAwayMessage(messengerData: IIntegrationMessengerData) {
@@ -89,10 +98,6 @@ class MessagesList extends React.Component<Props, State> {
   }
 
   renderNotifyInput(messengerData: IIntegrationMessengerData) {
-    if (messengerData.requireAuth || getLocalStorageItem("hasNotified")) {
-      return null;
-    }
-
     if (this.state.hideNotifyInput) {
       const messages =
         messengerData.messages || ({} as IIntegrationMessengerDataMessagesItem);
@@ -102,6 +107,10 @@ class MessagesList extends React.Component<Props, State> {
           <span> {messages.thank || "Thank you. "}</span>
         </li>
       );
+    }
+
+    if (messengerData.requireAuth || getLocalStorageItem("hasNotified")) {
+      return null;
     }
 
     return (
