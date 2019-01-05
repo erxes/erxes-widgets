@@ -75,13 +75,11 @@ class MessagesList extends React.Component<Props, State> {
   }
 
   onNotify = ({ type, value }: { type: string; value: string }) => {
-    const callback = () => {
+    this.props.saveGetNotified({ type, value }, () => {
       this.setState({ hideNotifyInput: true }, () =>
         setLocalStorageItem("hasNotified", "true")
       );
-    };
-
-    this.props.saveGetNotified({ type, value }, callback);
+    });
   };
 
   renderAwayMessage(messengerData: IIntegrationMessengerData) {
