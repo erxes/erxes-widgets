@@ -19,10 +19,8 @@ type Props = {
   inputFocus: () => void;
   uiOptions: IIntegrationUiOptions;
   messengerData: IIntegrationMessengerData;
-  updateCustomer: (
-    doc: { [key: string]: string },
-    callback: () => void
-  ) => void;
+  saveGetNotified: (doc: { type: string; value: string }) => void;
+  getColor?: string;
 };
 
 type State = {
@@ -73,13 +71,9 @@ class MessagesList extends React.Component<Props, State> {
   }
 
   onNotify = ({ type, value }: { type: string; value: string }) => {
-    const doc = {
-      [type]: value
-    };
+    this.props.saveGetNotified({ type, value });
 
-    this.props.updateCustomer(doc, () =>
-      this.setState({ hideNotifyInput: true })
-    );
+    this.setState({ hideNotifyInput: true });
   };
 
   renderAwayMessage(messengerData: IIntegrationMessengerData) {
@@ -112,7 +106,11 @@ class MessagesList extends React.Component<Props, State> {
 
     return (
       <li className="erxes-spacial-message auth">
-        <AccquireInformation save={this.onNotify} loading={false} />
+        <AccquireInformation
+          save={this.onNotify}
+          color={this.props.getColor}
+          loading={false}
+        />
       </li>
     );
   }

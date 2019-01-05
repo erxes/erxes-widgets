@@ -53,10 +53,6 @@ interface IStore extends IState {
   sendMessage: (message: string, attachments?: IAttachment[]) => void;
   sendFile: (file: File) => void;
   setHeadHeight: (headHeight: number) => void;
-  updateCustomer: (
-    doc: { [key: string]: string },
-    callback: () => void
-  ) => void;
 }
 
 const AppContext = React.createContext({} as IStore);
@@ -351,18 +347,6 @@ export class AppProvider extends React.Component<{}, IState> {
     });
   };
 
-  updateCustomer = (doc: { [key: string]: string }, callback: () => void) => {
-    client
-      .mutate({
-        mutation: gql(graphqlTypes.updateCustomer),
-        variables: { _id: connection.data.customerId, ...doc }
-      })
-      .then(() => {
-        callback();
-        setLocalStorageItem("hasNotified", "true");
-      });
-  };
-
   sendMessage = (message: string, attachments?: IAttachment[]) => {
     // current conversation
     const currentConversationId = this.state.activeConversation;
@@ -505,8 +489,7 @@ export class AppProvider extends React.Component<{}, IState> {
           readMessages: this.readMessages,
           sendMessage: this.sendMessage,
           sendFile: this.sendFile,
-          setHeadHeight: this.setHeadHeight,
-          updateCustomer: this.updateCustomer
+          setHeadHeight: this.setHeadHeight
         }}
       >
         {this.props.children}
