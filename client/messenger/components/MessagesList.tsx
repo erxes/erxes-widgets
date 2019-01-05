@@ -76,7 +76,6 @@ class MessagesList extends React.Component<Props, State> {
 
   onNotify = ({ type, value }: { type: string; value: string }) => {
     const callback = () => {
-      console.log("gonna set some state");
       this.setState({ hideNotifyInput: true }, () =>
         setLocalStorageItem("hasNotified", "true")
       );
