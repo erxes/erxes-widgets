@@ -16,8 +16,8 @@ module.exports = Merge(CommonConfig, {
     new UglifyJSPlugin({
       uglifyOptions: {
         ie8: false,
+        safari10: true,
         ecma: 8,
-        mangle: true,
         output: {
           comments: false,
           beautify: false,

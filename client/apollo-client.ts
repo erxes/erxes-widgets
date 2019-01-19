@@ -10,7 +10,7 @@ const { API_GRAPHQL_URL, API_SUBSCRIPTIONS_URL } = getEnv();
 
 // Create an http link:
 const httpLink = createHttpLink({
-  uri: `${API_GRAPHQL_URL}`
+  uri: "http://www.localhost:3100/graphql"
 });
 
 // Subscription config
