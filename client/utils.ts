@@ -155,3 +155,27 @@ export const generateIntegrationUrl = (integrationKind: string): string => {
 
   return "";
 };
+
+// check if valid url
+const isValidURL = (url: string) => {
+  try {
+    return Boolean(new URL(url));
+  } catch (e) {
+    return false;
+  }
+};
+
+/**
+ * Request to get file's URL for view and download
+ * @param {String} - value
+ * @return {String} - URL
+ */
+export const readFile = (value: string): string => {
+  if (!value || isValidURL(value)) {
+    return value;
+  }
+
+  const { MAIN_API_URL } = getEnv();
+
+  return `${MAIN_API_URL}/read-file?key=${value}`;
+};
