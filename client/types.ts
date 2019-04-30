@@ -2,6 +2,7 @@ export type ENV = {
   MAIN_API_URL: string;
   API_GRAPHQL_URL: string;
   API_SUBSCRIPTIONS_URL: string;
+  FILE_SYSTEM_PUBLIC: string;
 };
 
 export interface IUserDetails {

@@ -171,11 +171,11 @@ const isValidURL = (url: string) => {
  * @return {String} - URL
  */
 export const readFile = (value: string): string => {
-  if (!value || isValidURL(value)) {
+  const { FILE_SYSTEM_PUBLIC, MAIN_API_URL } = getEnv();
+
+  if (FILE_SYSTEM_PUBLIC === "true" || !value || isValidURL(value)) {
     return value;
   }
-
-  const { MAIN_API_URL } = getEnv();
 
   return `${MAIN_API_URL}/read-file?key=${value}`;
 };
