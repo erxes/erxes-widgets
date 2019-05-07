@@ -171,9 +171,9 @@ const isValidURL = (url: string) => {
  * @return {String} - URL
  */
 export const readFile = (value: string): string => {
-  const { FILE_SYSTEM_PUBLIC, MAIN_API_URL } = getEnv();
+  const { MAIN_API_URL } = getEnv();
 
-  if (FILE_SYSTEM_PUBLIC === "true" || !value || isValidURL(value)) {
+  if (!value || isValidURL(value)) {
     return value;
   }
 

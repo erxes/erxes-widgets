@@ -25,16 +25,14 @@ const getEnv = () => {
     ROOT_URL,
     MAIN_API_URL,
     API_GRAPHQL_URL,
-    API_SUBSCRIPTIONS_URL,
-    FILE_SYSTEM_PUBLIC
+    API_SUBSCRIPTIONS_URL
   } = process.env;
 
   return JSON.stringify({
     ROOT_URL,
     MAIN_API_URL,
     API_GRAPHQL_URL,
-    API_SUBSCRIPTIONS_URL,
-    FILE_SYSTEM_PUBLIC
+    API_SUBSCRIPTIONS_URL
   });
 };
 
