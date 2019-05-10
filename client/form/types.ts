@@ -30,14 +30,6 @@ export interface ICallout {
   skip?: boolean;
 }
 
-export interface IFormRule {
-  _id: string;
-  kind?: string;
-  text: string;
-  condition: string;
-  value: string;
-}
-
 export interface IForm {
   _id: string;
   title: string;
