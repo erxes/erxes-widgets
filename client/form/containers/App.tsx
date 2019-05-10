@@ -8,6 +8,10 @@ import { IForm, IFormRule } from "../types";
 import { AppConsumer, AppProvider } from "./AppContext";
 import { postMessage, saveBrowserInfo } from "./utils";
 
+type State = {
+  ready: boolean;
+};
+
 type QueryResponse = {
   form: IForm;
 };
@@ -24,9 +28,23 @@ type Props = {
   form: IForm;
 };
 
-class App extends React.Component<ChildProps<Props, QueryResponse>> {
+class App extends React.Component<ChildProps<Props, QueryResponse>, State> {
+  constructor(props: Props) {
+    super(props);
+
+    this.state = {
+      ready: false
+    };
+  }
+
   componentDidMount() {
     saveBrowserInfo();
+
+    this.checkRules().then(val => {
+      this.setState({
+        ready: val
+      });
+    });
 
     window.addEventListener("message", event => {
       if (event.data.fromPublisher) {
@@ -133,12 +151,12 @@ class App extends React.Component<ChildProps<Props, QueryResponse>> {
     const rules = this.props.form.rules || [];
     let passedAllRules = true;
 
-    rules.forEach(rule => {
-      if (!this.checkRule(rule)) {
+    for (const rule of rules) {
+      const result = await this.checkRule(rule);
+      if (result === false) {
         passedAllRules = false;
-        return;
       }
-    });
+    }
 
     return passedAllRules;
   };
@@ -154,7 +172,7 @@ class App extends React.Component<ChildProps<Props, QueryResponse>> {
     let parentClass;
     let containerClass = "";
 
-    if (!this.checkRules) {
+    if (this.state.ready === false) {
       return null;
     }
 
