@@ -1,4 +1,4 @@
-import { IIntegration } from "../types";
+import { IIntegration, IRule } from "../types";
 
 export interface IConnectResponse {
   form: IForm;
@@ -40,7 +40,7 @@ export interface IForm {
   createdUserId: string;
   fields: IField[];
   callout?: ICallout;
-  rules?: IFormRule[];
+  rules?: IRule[];
 }
 
 export type FieldValue = string | number | Date | string[];
