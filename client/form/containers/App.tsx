@@ -7,10 +7,6 @@ import { IForm } from "../types";
 import { AppConsumer, AppProvider } from "./AppContext";
 import { postMessage, saveBrowserInfo } from "./utils";
 
-type State = {
-  ready: boolean;
-};
-
 type QueryResponse = {
   form: IForm;
 };
@@ -27,7 +23,7 @@ type Props = {
   form: IForm;
 };
 
-class App extends React.Component<ChildProps<Props, QueryResponse>, State> {
+class App extends React.Component<ChildProps<Props, QueryResponse>, {}> {
   componentDidMount() {
     saveBrowserInfo();
 
