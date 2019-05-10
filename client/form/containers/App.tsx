@@ -1,13 +1,7 @@
 import * as React from "react";
-import { ChildProps } from "react-apollo";
 import { App as DumbApp } from "../components";
-import { IForm } from "../types";
 import { AppConsumer, AppProvider } from "./AppContext";
 import { postMessage, saveBrowserInfo } from "./utils";
-
-type QueryResponse = {
-  form: IForm;
-};
 
 type Props = {
   loadType: string;
@@ -20,7 +14,7 @@ type Props = {
   setHeight: () => void;
 };
 
-class App extends React.Component<ChildProps<Props, QueryResponse>, {}> {
+class App extends React.Component<Props, {}> {
   componentDidMount() {
     saveBrowserInfo();
 
