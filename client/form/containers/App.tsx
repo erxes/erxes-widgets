@@ -1,8 +1,6 @@
-import gql from "graphql-tag";
 import * as React from "react";
-import { ChildProps, graphql } from "react-apollo";
+import { ChildProps } from "react-apollo";
 import { App as DumbApp } from "../components";
-import { formQuery } from "../graphql";
 import { IForm } from "../types";
 import { AppConsumer, AppProvider } from "./AppContext";
 import { postMessage, saveBrowserInfo } from "./utils";
@@ -20,7 +18,6 @@ type Props = {
   closePopup: () => void;
   showPopup: () => void;
   setHeight: () => void;
-  form: IForm;
 };
 
 class App extends React.Component<ChildProps<Props, QueryResponse>, {}> {
@@ -109,15 +106,6 @@ class App extends React.Component<ChildProps<Props, QueryResponse>, {}> {
   }
 }
 
-const FormWithData = graphql<Props, QueryResponse>(gql(formQuery), {
-  options: ({ form }) => ({
-    fetchPolicy: "network-only",
-    variables: {
-      formId: form._id
-    }
-  })
-})(App);
-
 const WithContext = () => (
   <AppProvider>
     <AppConsumer>
@@ -130,12 +118,11 @@ const WithContext = () => (
           isFormVisible,
           isCalloutVisible,
           setHeight,
-          getIntegrationConfigs,
-          form
+          getIntegrationConfigs
         } = value;
 
         return (
-          <FormWithData
+          <App
             loadType={getIntegrationConfigs().loadType}
             isPopupVisible={isPopupVisible}
             isFormVisible={isFormVisible}
@@ -144,7 +131,6 @@ const WithContext = () => (
             setHeight={setHeight}
             closePopup={closePopup}
             showPopup={showPopup}
-            form={form}
           />
         );
       }}

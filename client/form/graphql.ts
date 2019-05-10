@@ -1,12 +1,3 @@
-const rules = `
-  rules {
-    _id
-    kind
-    text
-    condition
-    value
-  }
-`;
 export const formQuery = `
   query form($formId: String) {
     form(formId: $formId) {
@@ -14,7 +5,6 @@ export const formQuery = `
       description
       buttonText
       themeColor
-      ${rules}
       fields {
         _id
         formId
@@ -41,7 +31,13 @@ export const connectMutation = `
         description
         themeColor
         callout
-        ${rules}
+        rules {
+          _id
+          kind
+          text
+          condition
+          value
+        }
       }
       integration {
         _id
