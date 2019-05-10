@@ -6,7 +6,12 @@ import { ENV, IBrowserInfo, IRule } from "./types";
 
 export const getBrowserInfo = async () => {
   if (window.location.hostname === "localhost") {
-    return {};
+    return {
+      url: window.location.pathname,
+      hostname: window.location.origin,
+      language: navigator.language,
+      userAgent: navigator.userAgent
+    };
   }
 
   let location;
@@ -180,9 +185,8 @@ export const readFile = (value: string): string => {
   return `${MAIN_API_URL}/read-file?key=${value}`;
 };
 
-export const checkRule = async (rule: IRule) => {
-  const browserInfo = await getBrowserInfo();
-  const { language, url, city, country } = browserInfo;
+export const checkRule = async (rule: IRule, browserInfo: IBrowserInfo) => {
+  const { language, url, city, country } = browserInfo || ({} as IBrowserInfo);
   const { value, kind, condition } = rule;
   const ruleValue: any = value;
 
@@ -267,11 +271,14 @@ export const checkRule = async (rule: IRule) => {
   return true;
 };
 
-export const checkRules = async (rules: IRule[]): Promise<boolean> => {
+export const checkRules = async (
+  rules: IRule[],
+  browserInfo: IBrowserInfo
+): Promise<boolean> => {
   let passedAllRules = true;
 
   for (const rule of rules) {
-    const result = await checkRule(rule);
+    const result = await checkRule(rule, browserInfo);
 
     if (result === false) {
       passedAllRules = false;

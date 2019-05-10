@@ -1,5 +1,6 @@
 import * as React from "react";
 import { IEmailParams, IIntegration, IIntegrationFormData } from "../../types";
+import { checkRules } from "../../utils";
 import { connection } from "../connection";
 import { ICurrentStatus, IForm, IFormDoc, ISaveFormResponse } from "../types";
 import { increaseViewCount, postMessage, saveForm, sendEmail } from "./utils";
@@ -45,31 +46,50 @@ export class AppProvider extends React.Component<{}, IState> {
   /*
    * Decide which component will render initially
    */
-  init = () => {
-    const { data, hasPopupHandlers } = connection;
-    const { integration, form } = data;
+  init = async () => {
+    const interval = setInterval(async () => {
+      const { data, browserInfo, hasPopupHandlers } = connection;
+      const { integration, form } = data;
 
-    const { callout } = form;
-    const { loadType } = integration.formData;
+      if (!browserInfo) {
+        return;
+      }
 
-    // if there is popup handler then do not show it initially
-    if (loadType === "popup" && hasPopupHandlers) {
-      return null;
-    }
+      clearInterval(interval);
 
-    this.setState({ isPopupVisible: true });
+      const { callout, rules } = form;
+      const { loadType } = integration.formData;
 
-    // if there is no callout setting then show form
-    if (!callout) {
-      return this.setState({ isFormVisible: true });
-    }
+      // check rules ======
+      const isPassedAllRules = await checkRules(rules, browserInfo);
 
-    // If load type is shoutbox then hide form component initially
-    if (callout.skip && loadType !== "shoutbox") {
-      return this.setState({ isFormVisible: true });
-    }
+      if (!isPassedAllRules) {
+        return this.setState({
+          isPopupVisible: false,
+          isFormVisible: false,
+          isCalloutVisible: false
+        });
+      }
 
-    return this.setState({ isCalloutVisible: true });
+      // if there is popup handler then do not show it initially
+      if (loadType === "popup" && hasPopupHandlers) {
+        return null;
+      }
+
+      this.setState({ isPopupVisible: true });
+
+      // if there is no callout setting then show form
+      if (!callout) {
+        return this.setState({ isFormVisible: true });
+      }
+
+      // If load type is shoutbox then hide form component initially
+      if (callout.skip && loadType !== "shoutbox") {
+        return this.setState({ isFormVisible: true });
+      }
+
+      return this.setState({ isCalloutVisible: true });
+    }, 100);
   };
 
   /*
