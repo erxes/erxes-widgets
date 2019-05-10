@@ -155,7 +155,7 @@ class App extends React.Component<ChildProps<Props, QueryResponse>> {
     let containerClass = "";
 
     if (!this.checkRules) {
-      return;
+      return null;
     }
 
     const extendedProps = { ...this.props, containerClass };
