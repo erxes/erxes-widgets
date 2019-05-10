@@ -14,7 +14,7 @@ type Props = {
   setHeight: () => void;
 };
 
-class App extends React.Component<Props, {}> {
+class App extends React.Component<Props> {
   componentDidMount() {
     saveBrowserInfo();
 
