@@ -24,6 +24,7 @@ interface IStore extends IState {
   getIntegration: () => IIntegration;
   getForm: () => IForm;
   getIntegrationConfigs: () => IIntegrationFormData;
+  form: IForm;
 }
 
 const AppContext = React.createContext({} as IStore);
@@ -204,7 +205,8 @@ export class AppProvider extends React.Component<{}, IState> {
           setHeight: this.setHeight,
           getIntegration: this.getIntegration,
           getForm: this.getForm,
-          getIntegrationConfigs: this.getIntegrationConfigs
+          getIntegrationConfigs: this.getIntegrationConfigs,
+          form: this.getForm()
         }}
       >
         {this.props.children}

@@ -1,4 +1,4 @@
-import { IBrowserInfo, IIntegration } from "../types";
+import { IIntegration } from "../types";
 
 export interface IConnectResponse {
   form: IForm;
@@ -30,6 +30,14 @@ export interface ICallout {
   skip?: boolean;
 }
 
+export interface IFormRule {
+  _id: string;
+  kind?: string;
+  text: string;
+  condition: string;
+  value: string;
+}
+
 export interface IForm {
   _id: string;
   title: string;
@@ -40,6 +48,7 @@ export interface IForm {
   createdUserId: string;
   fields: IField[];
   callout?: ICallout;
+  rules?: IFormRule[];
 }
 
 export type FieldValue = string | number | Date | string[];

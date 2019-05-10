@@ -1,7 +1,16 @@
+import gql from "graphql-tag";
 import * as React from "react";
+import { ChildProps, graphql } from "react-apollo";
+import { getBrowserInfo } from "../../utils";
 import { App as DumbApp } from "../components";
+import { formQuery } from "../graphql";
+import { IForm, IFormRule } from "../types";
 import { AppConsumer, AppProvider } from "./AppContext";
 import { postMessage, saveBrowserInfo } from "./utils";
+
+type QueryResponse = {
+  form: IForm;
+};
 
 type Props = {
   loadType: string;
@@ -12,9 +21,10 @@ type Props = {
   closePopup: () => void;
   showPopup: () => void;
   setHeight: () => void;
+  form: IForm;
 };
 
-class App extends React.Component<Props> {
+class App extends React.Component<ChildProps<Props, QueryResponse>> {
   componentDidMount() {
     saveBrowserInfo();
 
@@ -32,6 +42,107 @@ class App extends React.Component<Props> {
     this.props.setHeight();
   }
 
+  checkRule = async (rule: IFormRule) => {
+    const browserInfo = await getBrowserInfo();
+    const { language, url, city, country } = browserInfo;
+    const { value, kind, condition } = rule;
+    const ruleValue: any = value;
+
+    let valueToTest: any;
+
+    if (kind === "browserLanguage") {
+      valueToTest = language;
+    }
+
+    if (kind === "currentPageUrl") {
+      valueToTest = url;
+    }
+
+    if (kind === "city") {
+      valueToTest = city;
+    }
+
+    if (kind === "country") {
+      valueToTest = country;
+    }
+
+    // is
+    if (condition === "is" && valueToTest !== ruleValue) {
+      return false;
+    }
+
+    // isNot
+    if (condition === "isNot" && valueToTest === ruleValue) {
+      return false;
+    }
+
+    // isUnknown
+    if (condition === "isUnknown" && valueToTest) {
+      return false;
+    }
+
+    // hasAnyValue
+    if (condition === "hasAnyValue" && !valueToTest) {
+      return false;
+    }
+
+    // startsWith
+    if (
+      condition === "startsWith" &&
+      valueToTest &&
+      !valueToTest.startsWith(ruleValue)
+    ) {
+      return false;
+    }
+
+    // endsWith
+    if (
+      condition === "endsWith" &&
+      valueToTest &&
+      !valueToTest.endsWith(ruleValue)
+    ) {
+      return false;
+    }
+
+    // contains
+    if (
+      condition === "contains" &&
+      valueToTest &&
+      !valueToTest.includes(ruleValue)
+    ) {
+      return false;
+    }
+
+    // greaterThan
+    if (condition === "greaterThan" && valueToTest < parseInt(ruleValue, 10)) {
+      return false;
+    }
+
+    if (condition === "lessThan" && valueToTest > parseInt(ruleValue, 10)) {
+      return false;
+    }
+
+    if (condition === "doesNotContain" && valueToTest.includes(ruleValue)) {
+      return false;
+    }
+
+    return true;
+  };
+
+  checkRules = async (): Promise<boolean> => {
+    const rules = this.props.form.rules || [];
+    let passedAllRules = true;
+
+    rules.forEach(rule => {
+      if (!this.checkRule(rule)) {
+        passedAllRules = false;
+        return;
+      }
+    });
+
+    return passedAllRules;
+  };
+
   render() {
     const {
       isPopupVisible,
@@ -42,6 +153,10 @@ class App extends React.Component<Props> {
 
     let parentClass;
     let containerClass = "";
+
+    if (!this.checkRules) {
+      return;
+    }
 
     const extendedProps = { ...this.props, containerClass };
 
@@ -100,6 +215,15 @@ class App extends React.Component<Props> {
   }
 }
 
+const FormWithData = graphql<Props, QueryResponse>(gql(formQuery), {
+  options: ({ form }) => ({
+    fetchPolicy: "network-only",
+    variables: {
+      formId: form._id
+    }
+  })
+})(App);
+
 const WithContext = () => (
   <AppProvider>
     <AppConsumer>
@@ -112,11 +236,12 @@ const WithContext = () => (
           isFormVisible,
           isCalloutVisible,
           setHeight,
-          getIntegrationConfigs
+          getIntegrationConfigs,
+          form
         } = value;
 
         return (
-          <App
+          <FormWithData
             loadType={getIntegrationConfigs().loadType}
             isPopupVisible={isPopupVisible}
             isFormVisible={isFormVisible}
@@ -125,6 +250,7 @@ const WithContext = () => (
             setHeight={setHeight}
             closePopup={closePopup}
             showPopup={showPopup}
+            form={form}
           />
         );
       }}
