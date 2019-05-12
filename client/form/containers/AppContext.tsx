@@ -47,49 +47,45 @@ export class AppProvider extends React.Component<{}, IState> {
    * Decide which component will render initially
    */
   init = async () => {
-    const interval = setInterval(async () => {
-      const { data, browserInfo, hasPopupHandlers } = connection;
-      const { integration, form } = data;
+    const { data, browserInfo, hasPopupHandlers } = connection;
+    const { integration, form } = data;
 
-      if (!browserInfo) {
-        return;
-      }
+    if (!browserInfo) {
+      return;
+    }
 
-      clearInterval(interval);
+    const { callout, rules } = form;
+    const { loadType } = integration.formData;
 
-      const { callout, rules } = form;
-      const { loadType } = integration.formData;
+    // check rules ======
+    const isPassedAllRules = await checkRules(rules, browserInfo);
 
-      // check rules ======
-      const isPassedAllRules = await checkRules(rules, browserInfo);
+    if (!isPassedAllRules) {
+      return this.setState({
+        isPopupVisible: false,
+        isFormVisible: false,
+        isCalloutVisible: false
+      });
+    }
 
-      if (!isPassedAllRules) {
-        return this.setState({
-          isPopupVisible: false,
-          isFormVisible: false,
-          isCalloutVisible: false
-        });
-      }
+    // if there is popup handler then do not show it initially
+    if (loadType === "popup" && hasPopupHandlers) {
+      return null;
+    }
 
-      // if there is popup handler then do not show it initially
-      if (loadType === "popup" && hasPopupHandlers) {
-        return null;
-      }
+    this.setState({ isPopupVisible: true });
 
-      this.setState({ isPopupVisible: true });
+    // if there is no callout setting then show form
+    if (!callout) {
+      return this.setState({ isFormVisible: true });
+    }
 
-      // if there is no callout setting then show form
-      if (!callout) {
-        return this.setState({ isFormVisible: true });
-      }
+    // If load type is shoutbox then hide form component initially
+    if (callout.skip && loadType !== "shoutbox") {
+      return this.setState({ isFormVisible: true });
+    }
 
-      // If load type is shoutbox then hide form component initially
-      if (callout.skip && loadType !== "shoutbox") {
-        return this.setState({ isFormVisible: true });
-      }
-
-      return this.setState({ isCalloutVisible: true });
-    }, 100);
+    return this.setState({ isCalloutVisible: true });
   };
 
   /*
