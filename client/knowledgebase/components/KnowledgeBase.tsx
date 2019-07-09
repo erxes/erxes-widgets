@@ -10,6 +10,7 @@ import {
 type Props = {
   activeRoute: string;
   color: string;
+  backgroundImage?: string;
 };
 
 export default class KnowledgeBase extends React.Component<Props> {
@@ -36,11 +37,15 @@ export default class KnowledgeBase extends React.Component<Props> {
   }
 
   render() {
-    const { color } = this.props;
+    const { color, backgroundImage } = this.props;
 
     return (
-      <div className="erxes-widget-container">
+      <div
+        className="erxes-widget-container"
+        style={{ backgroundImage: `url(${backgroundImage})` }}
+      >
         <SearchBar color={color} />
+
         <div className="erxes-widget-kb">
           <div className="erxes-content">
             <div className="erxes-knowledge-container">
