@@ -46,6 +46,7 @@ const getKbCategoryQuery = `
         title
         summary
         content
+        reactionChoices
         createdBy
         createdDate
         modifiedBy
@@ -85,9 +86,16 @@ const getKbTopicQuery = `
   }
 `;
 
+const incReactionCount = `
+  mutation knowledgebaseIncReactionCount($articleId: String! $reactionChoice: String!) {
+    knowledgebaseIncReactionCount(articleId: $articleId, reactionChoice: $reactionChoice)
+  }
+`;
+
 export default {
   kbLoaderQuery,
   kbSearchArticlesQuery,
   getKbCategoryQuery,
+  incReactionCount,
   getKbTopicQuery
 };

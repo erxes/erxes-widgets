@@ -8,10 +8,36 @@ import { BackButton } from "./";
 type Props = {
   article: IKbArticle | null;
   goToArticles: () => void;
+  incReactionCount: (articleId: string, reactionChoice: string) => void;
 };
 export default class ArticleDetail extends React.PureComponent<Props> {
   componentDidMount() {
     makeClickableLink(".erxes-article-content a");
+  }
+
+  onReactionClick = (articleId: string, reactionChoice: string) => {
+    const { incReactionCount } = this.props;
+
+    incReactionCount(articleId, reactionChoice);
+  };
+
+  renderReactions() {
+    const { article } = this.props;
+
+    if (!article) {
+      return null;
+    }
+
+    return (article.reactionChoices || []).map((reactionChoice, index) => {
+      return (
+        <button
+          key={index}
+          onClick={this.onReactionClick.bind(this, article._id, reactionChoice)}
+        >
+          {reactionChoice}
+        </button>
+      );
+    });
   }
 
   render() {
@@ -69,6 +95,8 @@ export default class ArticleDetail extends React.PureComponent<Props> {
             <p>{summary}</p>
             <p dangerouslySetInnerHTML={{ __html: content }} />
           </div>
+
+          {this.renderReactions()}
         </div>
       </div>
     );
