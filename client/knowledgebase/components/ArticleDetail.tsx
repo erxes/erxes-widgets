@@ -28,16 +28,22 @@ export default class ArticleDetail extends React.PureComponent<Props> {
       return null;
     }
 
-    return (article.reactionChoices || []).map((reactionChoice, index) => {
-      return (
-        <button
-          key={index}
-          onClick={this.onReactionClick.bind(this, article._id, reactionChoice)}
-        >
-          {reactionChoice}
-        </button>
-      );
-    });
+    return (
+      <div className="reactions">
+        {(article.reactionChoices || []).map((reactionChoice, index) => (
+          <span
+            key={index}
+            onClick={this.onReactionClick.bind(
+              this,
+              article._id,
+              reactionChoice
+            )}
+          >
+            <img src={reactionChoice} />
+          </span>
+        ))}
+      </div>
+    );
   }
 
   render() {

@@ -1,0 +1,32 @@
+.reactions {
+	display: flex;
+	justify-content: center;
+	margin-bottom: -20px;
+	height: 48px;
+
+  span {
+		margin-right: 10px;
+		width: 44px;
+		vertical-align: middle;
+    text-align: center;
+
+		&:hover {
+			cursor: pointer;
+		}
+
+		img {
+			height: 36px;
+			width: 36px;
+			padding: 2px;
+			background: $white;
+			border-radius: 50%;
+			box-shadow: 0 1px 2px rgba(0,0,0,.08), 0 1px 2px rgba(0,0,0,.15);
+			transition: all 0.3s ease;
+
+			&:hover {
+				height: 40px;
+				width: 40px;
+			}
+		}
+	}
+}
