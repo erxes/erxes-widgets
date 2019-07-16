@@ -1,4 +1,5 @@
 import * as React from "react";
+import { readFile } from "../../utils";
 import {
   ArticleDetail,
   Articles,
@@ -42,7 +43,7 @@ export default class KnowledgeBase extends React.Component<Props> {
     return (
       <div
         className="erxes-widget-container"
-        style={{ backgroundImage: `url(${backgroundImage})` }}
+        style={{ backgroundImage: `url(${readFile(backgroundImage || "")})` }}
       >
         <SearchBar color={color} />
 
