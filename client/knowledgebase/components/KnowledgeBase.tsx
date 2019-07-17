@@ -40,11 +40,12 @@ export default class KnowledgeBase extends React.Component<Props> {
   render() {
     const { color, backgroundImage } = this.props;
 
+    const style = backgroundImage
+      ? { backgroundImage: `url(${readFile(backgroundImage)})` }
+      : {};
+
     return (
-      <div
-        className="erxes-widget-container"
-        style={{ backgroundImage: `url(${readFile(backgroundImage || "")})` }}
-      >
+      <div className="erxes-widget-container" style={style}>
         <SearchBar color={color} />
 
         <div className="erxes-widget-kb">
