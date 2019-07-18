@@ -87,8 +87,10 @@ export const setMomentLocale = (code: string) => {
 };
 
 export const setLocale = (code?: string) => {
-  T.setTexts(translation[code || "en"]);
-  setMomentLocale(code || "en");
+  const lang = code === "zh-cn" ? "zh" : code === "pt-br" ? "ptBr" : code;
+
+  T.setTexts(translation[lang || "en"]);
+  setMomentLocale(lang || "en");
 };
 
 export const __ = (msg: string) => {
