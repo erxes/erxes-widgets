@@ -269,7 +269,7 @@ const formConnectMutation = `
       integration {
         _id
         name
-        formData
+        leadData
       }
     }
   }

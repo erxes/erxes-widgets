@@ -52,7 +52,7 @@ class LeadConnect extends React.PureComponent<Props, IState> {
         }
 
         // save connection info
-        connection.formData = response;
+        connection.leadData = response;
 
         this.setState({ loading: false });
 

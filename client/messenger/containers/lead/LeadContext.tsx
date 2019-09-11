@@ -83,11 +83,11 @@ export class LeadProvider extends React.Component<{}, IState> {
   };
 
   getIntegration = () => {
-    return connection.formData.integration;
+    return connection.leadData.integration;
   };
 
   getForm = () => {
-    return connection.formData.form;
+    return connection.leadData.form;
   };
 
   showForm = () => {

@@ -4,7 +4,6 @@ export const formQuery = `
       title
       description
       buttonText
-      themeColor
       fields {
         _id
         formId
@@ -29,21 +28,12 @@ export const connectMutation = `
         _id
         title
         description
-        themeColor
-        callout
-        rules {
-          _id
-          kind
-          text
-          condition
-          value
-        }
       }
       integration {
         _id
         name
         languageCode
-        formData
+        leadData
       }
     }
   }

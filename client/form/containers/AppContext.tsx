@@ -48,14 +48,13 @@ export class AppProvider extends React.Component<{}, IState> {
    */
   init = async () => {
     const { data, browserInfo, hasPopupHandlers } = connection;
-    const { integration, form } = data;
+    const { integration } = data;
 
     if (!browserInfo) {
       return;
     }
 
-    const { callout, rules } = form;
-    const { loadType } = integration.formData;
+    const { loadType, callout, rules } = integration.leadData;
 
     // check rules ======
     const isPassedAllRules = await checkRules(rules, browserInfo);
@@ -119,7 +118,7 @@ export class AppProvider extends React.Component<{}, IState> {
   showPopup = () => {
     const { data } = connection;
     const { integration } = data;
-    const { callout } = integration.formData;
+    const { callout } = integration.leadData;
 
     this.setState({ isPopupVisible: true });
 
@@ -201,7 +200,7 @@ export class AppProvider extends React.Component<{}, IState> {
   };
 
   getIntegrationConfigs = () => {
-    return this.getIntegration().formData;
+    return this.getIntegration().leadData;
   };
 
   render() {
