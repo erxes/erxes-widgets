@@ -113,7 +113,7 @@ export interface IIntegrationMessengerData {
   links?: IIntegrationLink;
 }
 
-export interface IIntegrationFormData {
+export interface IIntegrationLeadData {
   loadType: string;
   successAction?: string;
   fromEmail?: string;
@@ -143,7 +143,7 @@ export interface IIntegration {
   languageCode?: string;
   tagIds?: string[];
   formId: string;
-  leadData: IIntegrationFormData;
+  leadData: IIntegrationLeadData;
   messengerData: IIntegrationMessengerData;
   twitterData: IIntegrationTwitterData;
   facebookData: IIntegrationFacebookData;

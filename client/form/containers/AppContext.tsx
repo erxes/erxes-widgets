@@ -1,5 +1,5 @@
 import * as React from "react";
-import { IEmailParams, IIntegration, IIntegrationFormData } from "../../types";
+import { IEmailParams, IIntegration, IIntegrationLeadData } from "../../types";
 import { checkRules } from "../../utils";
 import { connection } from "../connection";
 import { ICurrentStatus, IForm, IFormDoc, ISaveFormResponse } from "../types";
@@ -24,7 +24,7 @@ interface IStore extends IState {
   setHeight: () => void;
   getIntegration: () => IIntegration;
   getForm: () => IForm;
-  getIntegrationConfigs: () => IIntegrationFormData;
+  getIntegrationConfigs: () => IIntegrationLeadData;
 }
 
 const AppContext = React.createContext({} as IStore);
