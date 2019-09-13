@@ -3,7 +3,7 @@ import { IEmailParams, IIntegration, IIntegrationLeadData } from "../../types";
 import { checkRules } from "../../utils";
 import { connection } from "../connection";
 import { ICurrentStatus, IForm, IFormDoc, ISaveFormResponse } from "../types";
-import { increaseViewCount, postMessage, saveForm, sendEmail } from "./utils";
+import { increaseViewCount, postMessage, saveLead, sendEmail } from "./utils";
 
 interface IState {
   isPopupVisible: boolean;
@@ -152,7 +152,7 @@ export class AppProvider extends React.Component<{}, IState> {
    * Save user submissions
    */
   save = (doc: IFormDoc) => {
-    saveForm({
+    saveLead({
       doc,
       browserInfo: connection.browserInfo,
       integrationId: this.getIntegration()._id,

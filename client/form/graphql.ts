@@ -22,8 +22,8 @@ export const formQuery = `
 `;
 
 export const connectMutation = `
-  mutation formConnect($brandCode: String!, $formCode: String!) {
-    formConnect(brandCode: $brandCode, formCode: $formCode) {
+  mutation leadConnect($brandCode: String!, $formCode: String!) {
+    leadConnect(brandCode: $brandCode, formCode: $formCode) {
       form {
         _id
         title
@@ -40,8 +40,8 @@ export const connectMutation = `
 `;
 
 export const saveFormMutation = `
-  mutation saveForm($integrationId: String!, $formId: String!, $submissions: [FieldValueInput], $browserInfo: JSON!) {
-    saveForm(integrationId: $integrationId, formId: $formId, submissions: $submissions, browserInfo: $browserInfo) {
+  mutation saveLead($integrationId: String!, $formId: String!, $submissions: [FieldValueInput], $browserInfo: JSON!) {
+    saveLead(integrationId: $integrationId, formId: $formId, submissions: $submissions, browserInfo: $browserInfo) {
       status
       messageId
       errors {
@@ -60,7 +60,7 @@ export const sendEmailMutation = `
 `;
 
 export const increaseViewCountMutation = `
-  mutation formIncreaseViewCount($formId: String!) {
-    formIncreaseViewCount(formId: $formId)
+  mutation leadIncreaseViewCount($formId: String!) {
+    leadIncreaseViewCount(formId: $formId)
   }
 `;
