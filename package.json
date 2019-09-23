@@ -68,13 +68,13 @@
     "react-dom": "16.4.2",
     "react-transition-group": "^2.4.0",
     "strip_tags": "^1.0.1",
-    "striptags": "^3.0.1",
     "subscriptions-transport-ws": "^0.9.14",
     "xss": "^1.0.3"
   },
   "devDependencies": {
     "@release-it/conventional-changelog": "^1.1.0",
     "@types/classnames": "^2.2.6",
+    "@types/strip_tags": "^1.0.2",
     "@types/cors": "^2.8.4",
     "@types/dotenv": "^4.0.3",
     "@types/express": "^4.16.0",

@@ -1,7 +1,7 @@
 import * as classNames from "classnames";
 import * as moment from "moment";
 import * as React from "react";
-import * as striptags from "striptags";
+import * as stripTags from "strip_tags";
 import { defaultAvatar } from "../../icons/Icons";
 import { __, readFile } from "../../utils";
 import { IConversation } from "../types";
@@ -51,7 +51,7 @@ function ConversationItem({
           {moment(createdAt).format("LT")}
         </div>
         <div className="erxes-name">{fullName}</div>
-        <div className="erxes-last-message">{striptags(content)}</div>
+        <div className="erxes-last-message">{stripTags(content)}</div>
       </div>
     </li>
   );
