@@ -20,11 +20,6 @@
     right: 0;
   } 
 
-  &.full-message {
-    //height: calc(100% - 110px);
-    overflow: hidden;
-  }
-
   .close-notification {
     background: darken($grey-light, 10%);
     border-radius: 50%;
