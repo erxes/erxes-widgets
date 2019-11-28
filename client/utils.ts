@@ -313,7 +313,7 @@ export const urlify = (text: string) => {
     return `${href}&rancherText=${rancherText}`;
   });
 
-  const urlRegex = /(((https?:\/\/)|(www\.))[-a-zA-Z0-9@:%._~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_.~#?&//=]*))/g;
+  const urlRegex = /(((https?:\/\/)|(www\.))[-a-zA-Z0-9@:%._~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_.~#?&-a-zA-Z0-9//=]*))/g;
 
   return text.replace(urlRegex, (url: string) => {
     let rancherText = url;
