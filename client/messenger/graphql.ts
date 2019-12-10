@@ -150,10 +150,10 @@ const readConversationMessages = `
 `;
 
 const connect = `
-  mutation connect($brandCode: String!, $email: String, $phone: String,
+  mutation connect($brandCode: String!, $email: String, $phone: String, $code: String
     $isUser: Boolean, $data: JSON,
     $companyData: JSON, $cachedCustomerId: String) {
-    messengerConnect(brandCode: $brandCode, email: $email, phone: $phone,
+    messengerConnect(brandCode: $brandCode, email: $email, phone: $phone, code: $code,
       isUser: $isUser, data: $data, companyData: $companyData,
       cachedCustomerId: $cachedCustomerId) {
       integrationId,
@@ -258,18 +258,17 @@ const formQuery = `
 `;
 
 const formConnectMutation = `
-  mutation formConnect($brandCode: String!, $formCode: String!) {
-    formConnect(brandCode: $brandCode, formCode: $formCode) {
+  mutation leadConnect($brandCode: String!, $formCode: String!) {
+    leadConnect(brandCode: $brandCode, formCode: $formCode) {
       form {
         _id
         title
         description
-        callout
       }
       integration {
         _id
         name
-        formData
+        leadData
       }
     }
   }

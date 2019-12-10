@@ -1,7 +1,7 @@
 import * as classNames from "classnames";
 import * as React from "react";
-import * as striptags from "striptags";
 import { IUser } from "../../types";
+import { striptags } from "../../utils";
 import { User } from "../components/common";
 import { IEngageData } from "../types";
 
