@@ -20,7 +20,7 @@ type Props = {
 };
 
 type QueryResponse = {
-  conversationDetail: IConversation;
+  widgetsConversationDetail: IConversation;
 };
 
 class ConversationDetail extends React.Component<
@@ -96,8 +96,8 @@ class ConversationDetail extends React.Component<
     let participators: IParticipator[] = [];
     let state: boolean = isOnline || false;
 
-    if (data && data.conversationDetail) {
-      const conversationDetail = data.conversationDetail;
+    if (data && data.widgetsConversationDetail) {
+      const conversationDetail = data.widgetsConversationDetail;
       messages = conversationDetail.messages;
       participators = conversationDetail.participatedUsers || [];
       state = conversationDetail.isOnline;
