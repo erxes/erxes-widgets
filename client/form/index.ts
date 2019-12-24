@@ -4,7 +4,7 @@ import { setLocale } from "../utils";
 import widgetConnect from "../widgetConnect";
 import { connection } from "./connection";
 import { App } from "./containers";
-import { connectMutation } from "./graphql";
+import { formConnectMutation } from "./graphql";
 import "./sass/style.scss";
 import { IConnectResponse } from "./types";
 
@@ -21,7 +21,7 @@ widgetConnect({
 
     // call connect mutation
     return client.mutate({
-      mutation: gql(connectMutation),
+      mutation: gql(formConnectMutation),
       variables: {
         brandCode: setting.brand_id,
         formCode: setting.form_id

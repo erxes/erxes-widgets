@@ -228,6 +228,8 @@ export default class Form extends React.Component<Props, State> {
       return this.renderSuccessForm(themeColor, thankContent);
     }
 
-    return this.renderForm(integration.leadData.themeColor || "");
+    return this.renderForm(
+      (integration.leadData && integration.leadData.themeColor) || ""
+    );
   }
 }

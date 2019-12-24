@@ -233,48 +233,6 @@ const faqSearchArticlesQuery = `
   }
 `;
 
-// lead
-const formQuery = `
-  query form($formId: String) {
-    form(formId: $formId) {
-      title
-      description
-      buttonText
-
-      fields {
-        _id
-        formId
-        name
-        type
-        check
-        text
-        description
-        options
-        isRequired
-        order
-        validation
-      }
-    }
-  }
-`;
-
-const formConnectMutation = `
-  mutation leadConnect($brandCode: String!, $formCode: String!) {
-    leadConnect(brandCode: $brandCode, formCode: $formCode) {
-      form {
-        _id
-        title
-        description
-      }
-      integration {
-        _id
-        name
-        leadData
-      }
-    }
-  }
-`;
-
 export default {
   messageFields,
   conversationDetailQuery,
@@ -291,7 +249,5 @@ export default {
   messengerSupportersQuery,
   getFaqCategoryQuery,
   getFaqTopicQuery,
-  faqSearchArticlesQuery,
-  formQuery,
-  formConnectMutation
+  faqSearchArticlesQuery
 };

@@ -280,12 +280,12 @@ export class AppProvider extends React.Component<{}, IState> {
     client
       .mutate({
         mutation: gql`
-          mutation widgetSaveCustomerGetNotified(
+          mutation widgetsSaveCustomerGetNotified(
             $customerId: String!
             $type: String!
             $value: String!
           ) {
-            widgetSaveCustomerGetNotified(
+            widgetsSaveCustomerGetNotified(
               customerId: $customerId
               type: $type
               value: $value
