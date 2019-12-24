@@ -7,7 +7,6 @@ export const formDetailQuery = `
 
       fields {
         _id
-        formId
         name
         type
         text
