@@ -203,8 +203,8 @@ const categoryFields = `
 `;
 
 const getFaqCategoryQuery = `
-  query knowledgeBaseCategoriesDetail($categoryId: String!) {
-    knowledgeBaseCategoriesDetail(categoryId: $categoryId) {
+  query knowledgeBaseCategoryDetail($_id: String!) {
+    knowledgeBaseCategoryDetail(_id: $_id) {
       ${categoryFields}
       articles {
         ${faqFields}
@@ -214,8 +214,8 @@ const getFaqCategoryQuery = `
 `;
 
 const getFaqTopicQuery = `
-  query knowledgeBaseTopicsDetail($topicId: String!) {
-    knowledgeBaseTopicsDetail(topicId: $topicId) {
+  query knowledgeBaseTopicDetail($_id: String!) {
+    knowledgeBaseTopicDetail(_id: $_id) {
       title
       description
       categories {
@@ -226,8 +226,8 @@ const getFaqTopicQuery = `
 `;
 
 const faqSearchArticlesQuery = `
-  query knowledgeBaseArticles($topicId: String!, $searchString: String!) {
-    knowledgeBaseArticles(topicId: $topicId, searchString: $searchString) {
+  query widgetsKnowledgeBaseArticles($topicId: String!, $searchString: String!) {
+    widgetsKnowledgeBaseArticles(topicId: $topicId, searchString: $searchString) {
       ${faqFields}
     }
   }
