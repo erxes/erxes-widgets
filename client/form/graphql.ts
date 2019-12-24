@@ -58,7 +58,7 @@ export const sendEmailMutation = `
 `;
 
 export const increaseViewCountMutation = `
-  mutation leadIncreaseViewCount($formId: String!) {
-    leadIncreaseViewCount(formId: $formId)
+  mutation widgetsLeadIncreaseViewCount($formId: String!) {
+    widgetsLeadIncreaseViewCount(formId: $formId)
   }
 `;

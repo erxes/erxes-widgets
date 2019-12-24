@@ -29,8 +29,8 @@ widgetConnect({
     });
   },
 
-  connectCallback: (data: { leadConnect: IConnectResponse }) => {
-    const response = data.leadConnect;
+  connectCallback: (data: { widgetsLeadConnect: IConnectResponse }) => {
+    const response = data.widgetsLeadConnect;
 
     if (!response) {
       throw new Error("Integration not found");
