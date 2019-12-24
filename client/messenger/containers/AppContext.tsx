@@ -470,10 +470,10 @@ export class AppProvider extends React.Component<{}, IState> {
         .then(({ data }: any) => {
           this.setState({ sendingMessage: false });
 
-          const { insertMessage } = data;
+          const { widgetsInsertMessage } = data;
 
           if (!activeConversation) {
-            this.changeConversation(insertMessage.conversationId);
+            this.changeConversation(widgetsInsertMessage.conversationId);
           }
         })
 

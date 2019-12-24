@@ -45,8 +45,8 @@ class ConversationDetail extends React.Component<
       variables: { _id: conversationId },
       updateQuery: (prev, { subscriptionData }) => {
         const message = subscriptionData.data.conversationMessageInserted;
-        const conversationDetail = prev.conversationDetail || {};
-        const messages = conversationDetail.messages || [];
+        const widgetsConversationDetail = prev.widgetsConversationDetail || {};
+        const messages = widgetsConversationDetail.messages || [];
 
         // check whether or not already inserted
         const prevEntry = messages.find((m: IMessage) => m._id === message._id);
@@ -63,8 +63,8 @@ class ConversationDetail extends React.Component<
         // add new message to messages list
         const next = {
           ...prev,
-          conversationDetail: {
-            ...conversationDetail,
+          widgetsConversationDetail: {
+            ...widgetsConversationDetail,
             messages: [...messages, message]
           }
         };
