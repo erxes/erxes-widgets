@@ -1,11 +1,3 @@
-const kbLoaderQuery = `
-  query knowledgeBaseLoader($topicId: String!) {
-    knowledgeBaseLoader(topicId: $topicId) {
-      loadType
-    }
-  }
-`;
-
 const kbSearchArticlesQuery = `
   query widgetsKnowledgeBaseArticles($topicId: String!, $searchString: String!) {
     widgetsKnowledgeBaseArticles(topicId: $topicId, searchString: $searchString) {
@@ -94,7 +86,6 @@ const incReactionCount = `
 `;
 
 export default {
-  kbLoaderQuery,
   kbSearchArticlesQuery,
   getKbCategoryQuery,
   incReactionCount,
