@@ -32,10 +32,6 @@
       "description": "Erxes API URL",
       "value": "https://ERXESAPIAPPNAME.herokuapp.com"
     },
-    "API_GRAPHQL_URL": {
-      "description": "Erxes Widgets API GraphQL URL",
-      "value": "https://ERXESWIDGETSAPIAPPNAME.herokuapp.com/graphql"
-    },
     "API_SUBSCRIPTIONS_URL": {
       "description": "Erxes API Subscriptions URL",
       "value": "ws://ERXESAPPNAME.herokuapp.com/subscriptions"
