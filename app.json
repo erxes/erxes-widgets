@@ -26,15 +26,15 @@
     },
     "ROOT_URL": {
       "description": "Erxes Widget APP URL",
-      "value": "https://ERXESWIDGETSAPPNAME.herokuapp.com"
+      "value": "https://erxes-widget.herokuapp.com"
     },
     "MAIN_API_URL": {
       "description": "Erxes API URL",
-      "value": "https://ERXESAPIAPPNAME.herokuapp.com"
+      "value": "https://erxes-api.herokuapp.com"
     },
     "API_SUBSCRIPTIONS_URL": {
       "description": "Erxes API Subscriptions URL",
-      "value": "ws://ERXESAPPNAME.herokuapp.com/subscriptions"
+      "value": "ws://erxes-api.herokuapp.com/subscriptions"
     }
   },
   "addons": [],
