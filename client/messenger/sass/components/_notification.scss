@@ -20,10 +20,6 @@
     right: 0;
   } 
 
-  &.full-message {
-    height: calc(100% - 110px);
-  }
-
   .close-notification {
     background: darken($grey-light, 10%);
     border-radius: 50%;
@@ -82,6 +78,7 @@
       margin-bottom: 0;
       overflow: auto;
       padding: 0 $core-spacing $core-spacing;
+      max-height: 430px;
     }
 
     img {
