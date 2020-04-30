@@ -1,0 +1,46 @@
+{
+  "name": "Erxes Widgets on Heroku",
+  "description": "Embedable widget scripts server for erxes",
+  "keywords": [
+    "Marketing",
+    "sales",
+    "customer engagement",
+    "customer support",
+    "CRM",
+    "node",
+    "express",
+    "react",
+    "typescript",
+    "webpack",
+    "graphql",
+    "apollo"
+  ],
+  "website": "https://erxes.io",
+  "repository": "https://github.com/erxes/erxes-widgets",
+  "logo": "https://erxes.io/static/images/logo/logo-dark.png",
+  "success_url": "/",
+  "env": {
+    "PORT": {
+      "description": "A port number that erxes api will be running on",
+      "value": "3200"
+    },
+    "ROOT_URL": {
+      "description": "Erxes Widget APP URL",
+      "value": "https://erxes-widget.herokuapp.com"
+    },
+    "MAIN_API_URL": {
+      "description": "Erxes API URL",
+      "value": "https://erxes-api.herokuapp.com"
+    },
+    "API_SUBSCRIPTIONS_URL": {
+      "description": "Erxes API Subscriptions URL",
+      "value": "ws://erxes-api.herokuapp.com/subscriptions"
+    }
+  },
+  "addons": [],
+  "buildpacks": [
+    {
+      "url": "https://github.com/heroku/heroku-buildpack-nodejs"
+    }
+  ]
+}
